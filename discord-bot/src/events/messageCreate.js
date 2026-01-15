@@ -14,16 +14,13 @@ module.exports = {
         const allowedChannels = await getAllowedChannels();
         const isAllowedChannel = allowedChannels.includes(message.channel.id);
 
-        // Check mentions/keywords
+        // Check mentions
         const isMentioned = message.mentions.users.has(message.client.user.id);
-        const isDM = !message.guild;
-        const keywords = ['bot', 'copilot', 'hey', 'hi', 'hello'];
-        const hasKeyword = keywords.some(k => message.content.toLowerCase().includes(k));
 
         // Logic: 
-        // 1. If in allowed channel -> Respond to EVERYTHING (unless bot)
-        // 2. If mentioned/DM/keyword -> Respond (fallback for other channels)
-        if (!isAllowedChannel && !isMentioned && !isDM && !hasKeyword) return;
+        // 1. If in allowed channel -> Respond to EVERYTHING
+        // 2. If NOT in allowed channel -> Respond ONLY if mentioned
+        if (!isAllowedChannel && !isMentioned) return;
 
         try {
             await message.channel.sendTyping();
