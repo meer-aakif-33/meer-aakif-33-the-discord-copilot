@@ -1,0 +1,25 @@
+{
+  "name": "discord-copilot-bot",
+  "version": "1.0.0",
+  "description": "Discord Copilot - AI-powered Discord bot with admin-controlled behavior",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ai",
+    "gemini"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.90.1",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "pdf-parse": "^2.4.5"
+  }
+}
