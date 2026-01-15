@@ -41,13 +41,13 @@ async function testServices() {
     }
 
     try {
-        console.log('Testing gemini-2.5-flash (as validation)...');
-        // Note: The actual code uses 'gemini-2.5-flash', so we test if that model exists/works
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        console.log('Testing gemini-1.5-flash (as validation)...');
+        // Note: The actual code uses 'gemini-1.5-flash', so we test if that model exists/works
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
         const result = await model.generateContent('Hello?');
-        console.log('✅ Gemini API (2.5-flash) Works!');
+        console.log('✅ Gemini API (1.5-flash) Works!');
     } catch (e) {
-        console.error('❌ Gemini API (2.5-flash) Failed (Model might not exist):', e.message);
+        console.error('❌ Gemini API (1.5-flash) Failed (Model might not exist):', e.message);
     }
 
     // 3. Test Supabase

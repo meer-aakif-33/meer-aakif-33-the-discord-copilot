@@ -49,7 +49,6 @@ async function getSystemInstructions() {
         return 'You are a helpful assistant.';
     }
 }
-
 // Get allowed channels
 async function getAllowedChannels() {
     try {
@@ -69,9 +68,58 @@ async function getAllowedChannels() {
     }
 }
 
+// Get conversation memory for a channel
+async function getConversationMemory(channelId) {
+    try {
+        const { data, error } = await supabase
+            .from('conversation_memory')
+            .select('*')
+            .eq('channel_id', channelId)
+            .single();
+
+        if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows found"
+            console.error('Error fetching conversation memory:', error);
+            return null;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Unexpected error in getConversationMemory:', error);
+        return null;
+    }
+}
+
+// Update or create conversation memory
+async function updateConversationMemory(channelId, summary, messageCount) {
+    try {
+        const { error } = await supabase
+            .from('conversation_memory')
+            .upsert({
+                channel_id: channelId,
+                summary: summary,
+                message_count: messageCount,
+                last_updated: new Date().toISOString()
+            }, {
+                onConflict: 'channel_id'
+            });
+
+        if (error) {
+            console.error('Error updating conversation memory:', error);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Unexpected error in updateConversationMemory:', error);
+        return false;
+    }
+}
+
 module.exports = {
     supabase,
     searchKnowledge,
     getSystemInstructions,
-    getAllowedChannels
+    getAllowedChannels,
+    getConversationMemory,
+    updateConversationMemory
 };
